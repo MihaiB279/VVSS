@@ -76,24 +76,18 @@ public class NewEditController {
     }
     public void setCurrentTask(Task task){
         this.currentTask=task;
-        switch (clickedButton.getId()){
-            case  "btnNew" : initNewWindow("New Task");
-                break;
-            case "btnEdit" : initEditWindow("Edit Task");
-                break;
+
+        if(clickedButton.getId().equals("btnNew")){
+            initNewWindow("New Task");
+        }
+        else if(clickedButton.getId().equals("btnEdit")){
+            initNewWindow("Edit Task");
         }
     }
 
     @FXML
     public void initialize(){
         log.info("new/edit window initializing");
-//        switch (clickedButton.getId()){
-//            case  "btnNew" : initNewWindow("New Task");
-//                break;
-//            case "btnEdit" : initEditWindow("Edit Task");
-//                break;
-//        }
-
     }
     private void initNewWindow(String title){
         currentStage.setTitle(title);

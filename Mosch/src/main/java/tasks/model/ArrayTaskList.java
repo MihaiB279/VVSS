@@ -136,13 +136,9 @@ public class ArrayTaskList extends TaskList{
                 ", currentCapacity=" + currentCapacity +
                 '}';
     }
-    @Override
-    protected ArrayTaskList clone() throws CloneNotSupportedException {
-        ArrayTaskList tasks = new ArrayTaskList();
-        for (int i = 0; i < this.tasks.length; i++){
-            tasks.add(this.getTask(i));
-        }
-        return tasks;
-
+    public ArrayTaskList(ArrayTaskList other) {
+        this.currentCapacity = other.currentCapacity;
+        this.numberOfTasks = other.numberOfTasks;
+        this.tasks = Arrays.copyOf(other.tasks, other.tasks.length);
     }
 }
