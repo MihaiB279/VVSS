@@ -54,10 +54,13 @@ public class Main extends Application {
             e.printStackTrace();
             log.error("error reading main.fxml");
         }
-        primaryStage.setOnCloseRequest(we -> {
-                System.exit(0);
+        final Notificator notifier =  new Notificator(FXCollections.observableArrayList(service.getObservableList()));
+        notifier.start();
+        primaryStage.setOnCloseRequest(exitWindow -> {
+            Notificator.isActive = false;
+            System.exit(0);
             });
-        new Notificator(FXCollections.observableArrayList(service.getObservableList())).start();
+
     }
 
     public static void main(String[] args) {

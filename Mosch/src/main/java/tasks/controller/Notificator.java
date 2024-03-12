@@ -10,7 +10,7 @@ import java.util.Date;
 
 public class Notificator extends Thread {
 
-
+    public static boolean isActive = true;
     private static final int millisecondsInSec = 1000;
     private static final int secondsInMin = 60;
 
@@ -25,8 +25,9 @@ public class Notificator extends Thread {
     @Override
     public void run() {
         Date currentDate = new Date();
-        while (true) {
-
+        // fix
+        while (isActive) {
+        // fix
             for (Task t : tasksList) {
                 if (t.isActive()) {
                     if (t.isRepeated() && t.getEndTime().after(currentDate)){
@@ -49,6 +50,7 @@ public class Notificator extends Thread {
                 }
 
             }
+
             try {
                 Thread.sleep(millisecondsInSec*secondsInMin);
 
