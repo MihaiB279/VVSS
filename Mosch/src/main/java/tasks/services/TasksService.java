@@ -52,4 +52,17 @@ public class TasksService {
 
         return filtered;
     }
+
+    public void saveTask(Task task) {
+        tasks.remove(task);
+        tasks.add(task);
+    }
+
+    public ArrayTaskList getTasks(){
+        return tasks;
+    }
+
+    public void clear(){
+        tasks = new ArrayTaskList();
+    }
 }
