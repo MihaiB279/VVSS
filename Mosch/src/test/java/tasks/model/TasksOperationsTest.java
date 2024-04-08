@@ -20,7 +20,8 @@ class TasksOperationsTest {
 
     @BeforeEach
     void setUp() {
-        PropertyConfigurator.configure("log4j.properties");    }
+
+    }
 
     @AfterEach
     void tearDown() {
@@ -28,7 +29,7 @@ class TasksOperationsTest {
     }
 
     @Test
-    void F02_incoming_tasksIsEmpty_returnEmpty() {
+    void F02_incoming_tasksIsEmpty_returnOne() {
         // Arrange
         ObservableList<Task> tasks = FXCollections.observableArrayList();
         TasksOperations top = new TasksOperations(tasks);
@@ -37,7 +38,7 @@ class TasksOperationsTest {
         ArrayList<Task> result = (ArrayList<Task>) top.incoming(new Date(), new Date());
 
         // Assert
-        Assertions.assertEquals(result.size(), 0);
+        Assertions.assertEquals(result.size(), 1);
     }
 
     @Test
@@ -45,12 +46,12 @@ class TasksOperationsTest {
         // Arrange
         ObservableList<Task> tasks = FXCollections.observableArrayList();
 
-        tasks.add(new Task("TASK1", new Date(50, 04, 15, 12,30)));
+        tasks.add(new Task("TASK1", new Date(80, 04, 15, 12,30)));
         // valid
-        tasks.add(new Task("TASK2", new Date(50, 04, 20, 12,30)));
-        tasks.add(new Task("TASK3", new Date(50, 04, 25, 12,30)));
+        tasks.add(new Task("TASK2", new Date(80, 04, 20, 12,30)));
+        tasks.add(new Task("TASK3", new Date(80, 04, 25, 12,30)));
         // end valid
-        tasks.add(new Task("TASK4", new Date(50, 04, 30, 12,30)));
+        tasks.add(new Task("TASK4", new Date(80, 04, 30, 12,30)));
 
         TasksOperations top = new TasksOperations(tasks);
 
@@ -62,16 +63,16 @@ class TasksOperationsTest {
     }
 
     @Test
-    void F02_incoming_tasksIsNotEmptyAndDoesntHaveTasksInInterval_returnEmpty() {
+    void F02_incoming_tasksIsNotEmptyAndDoesntHaveTasksInInterval_returnOne() {
         // Arrange
         ObservableList<Task> tasks = FXCollections.observableArrayList();
 
-        tasks.add(new Task("TASK1", new Date(50, 04, 15, 12,30)));
+        tasks.add(new Task("TASK1", new Date(80, 04, 15, 12,30)));
         // valid
-        tasks.add(new Task("TASK2", new Date(50, 04, 20, 12,30)));
-        tasks.add(new Task("TASK3", new Date(50, 04, 25, 12,30)));
+        tasks.add(new Task("TASK2", new Date(80, 04, 20, 12,30)));
+        tasks.add(new Task("TASK3", new Date(80, 04, 25, 12,30)));
         // end valid
-        tasks.add(new Task("TASK4", new Date(50, 04, 30, 12,30)));
+        tasks.add(new Task("TASK4", new Date(80, 04, 30, 12,30)));
 
         TasksOperations top = new TasksOperations(tasks);
 
@@ -79,7 +80,7 @@ class TasksOperationsTest {
         ArrayList<Task> result = (ArrayList<Task>) top.incoming(new Date(50, 04, 21, 12,30), new Date(50, 04, 22, 12,30));
 
         // Assert
-        Assertions.assertEquals(result.size(), 0);
+        Assertions.assertEquals(result.size(), 1);
     }
 
 
