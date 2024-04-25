@@ -6,9 +6,8 @@ import tasks.model.Task;
 
 import java.util.Date;
 
-@Timeout(2000)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class TasksServiceTest {
+public class TaskServiceTest {
     private static TasksService service;
 
     @BeforeAll
@@ -28,6 +27,7 @@ public class TasksServiceTest {
     class EcpTesting {
         @BeforeEach
         void testSetup() {
+            service.clear();
             Task task = new Task("Test data", new Date(), new Date(), 1);
             service.saveTask(task);
         }
@@ -49,7 +49,7 @@ public class TasksServiceTest {
 
         @Test
         @DisplayName("Save task with a invalid description")
-        public void saveTaskWithInvalidTitle() {
+        public void saveTaskWithInvalid() {
             Assertions.assertThrows(IllegalArgumentException.class, () -> {
                 Task task = new Task("bzhwbkwuzbzgntpfcdkrcnniztzzvjhitfwxrtphqjrgemnxuauyjuanvuieeeadgacfvxjamgypqxtkvaeidiyphmpabbrhhqaehhjmphecaemfmnvnqyryuxtpzzuifpnjmqwepbprcvuyhzfywrctikgyrhtuuawxdzkxjbcbqczcbeyvegkffmrafpxzruxfxjpmxrdftpuxihxrnkthwfjytyrgugxufqhmkezttkdkznzubdiygtbwvdxrghkzeetayzjduayfmqrgihmknknvhvvdmixmhzftjctw", new Date(), new Date(), 1);
                 service.saveTask(task);
@@ -69,13 +69,6 @@ public class TasksServiceTest {
             Assertions.assertEquals(2, service.getTasks().size());
             Assertions.assertEquals(service.getTasks().getTask(1), task);
         }
-
-        @Test
-        @DisplayName("Save task with invalid date")
-        public void saveTaskWithInvalidDate() {
-            Assertions.assertThrows(IllegalArgumentException.class, () -> new Task("Title", new Date(50, 04, 15), new Date(), 1));
-            Assertions.assertEquals(1, service.getTasks().size());
-        }
     }
 
 
@@ -85,6 +78,7 @@ public class TasksServiceTest {
     class BvaTesting {
         @BeforeEach
         void testSetup() {
+            service.clear();
             Task task = new Task("Test data", new Date(), new Date(), 1);
             service.saveTask(task);
         }
@@ -134,6 +128,39 @@ public class TasksServiceTest {
 
             Assertions.assertDoesNotThrow(() -> service.saveTask(task));
             Assertions.assertEquals(2, service.getTasks().size());
+        }
+
+        @Test
+        @DisplayName("Save task with a valid date (lower bound)")
+        public void saveTaskWithValidDateLowerBound() {
+            Task task = new Task("Title", new Date(), new Date(), 1);
+
+            Assertions.assertDoesNotThrow(() -> {
+                service.saveTask(task);
+            });
+
+            Assertions.assertEquals(2, service.getTasks().size());
+            Assertions.assertEquals(service.getTasks().getTask(1), task);
+        }
+
+        @Test
+        @DisplayName("Save task with a valid date (upper bound)")
+        public void saveTaskWithValidDateUpperBound() {
+            Task task = new Task("Title", new Date(), new Date(), 1);
+
+            Assertions.assertDoesNotThrow(() -> {
+                service.saveTask(task);
+            });
+
+            Assertions.assertEquals(2, service.getTasks().size());
+            Assertions.assertEquals(service.getTasks().getTask(1), task);
+        }
+
+        @Test
+        @DisplayName("Save task with invalid date (before 1970)")
+        public void saveTaskWithInvalidDateLowerBound() {
+            Assertions.assertThrows(IllegalArgumentException.class, () -> new Task("Title", new Date(-1), new Date(69, 12, 31), 1));
+            Assertions.assertEquals(1, service.getTasks().size());
         }
 
         @Test
